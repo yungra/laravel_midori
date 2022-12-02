@@ -26,6 +26,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+        Route::model('person',\App\Models\Person::class);
+
         $this->configureRateLimiting();
 
         $this->routes(function () {

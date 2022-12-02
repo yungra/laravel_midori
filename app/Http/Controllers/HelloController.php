@@ -23,7 +23,7 @@ class HelloController extends Controller
         return view('hello.index', $data);
     }
     
-    public function index(Person $person)
+    public function index($person)
     {
         $data = [
             'msg'=>$person,
