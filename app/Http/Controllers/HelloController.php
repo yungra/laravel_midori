@@ -4,28 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Person;
+use Illuminate\Support\Facades\Storage;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 
 class HelloController extends Controller
 {
+    private $fname;
+
     function __construct()
     {
-        config(['sample.message' => '新しいメッセージ！']);
+        $this->fname = 'sample.txt';
     }
 
     public function index()
     {
-        $sample_msg = config('sample.message');
-        $sample_data = config('sample.data');
+        $sample_msg = $this->fname;
+        $sample_data = Storage::get($this->fname);
         $data = [
             'msg' => $sample_msg,
-            'data' => $sample_data,
+            'data' => explode(PHP_EOL, $sample_data),
         ];
+        // dd($sample_data);
         return view('hello.index', $data);
     }
     
-    public function other(Request $request)
+    public function other($msg)
     {
-        return redirect()->route('sample');
+        // $data = Storage::get($this->fname) . PHP_EOL . $msg;
+        // Storage::put($this->fname, $data);
+        Storage::prepend($this->fname, $msg);
+        return redirect()->route('hello');
     }
     
 }
