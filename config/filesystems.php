@@ -56,6 +56,24 @@ return [
             'throw' => false,
         ],
 
+        'logs' => [
+            'driver' => 'local',
+            'root' => storage_path('logs'),
+            'url' => env('APP_URL') . '/storage/logs',
+        ],
+
+        'download' => [
+            'driver' => 'local',
+            'root' => 'Users/yuga/Downloads',
+        ],
+
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => 'test',
+            'username' => 'yuga',
+            'password' => 'password'
+        ],
+
     ],
 
     /*

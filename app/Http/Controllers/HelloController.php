@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Person;
 use Illuminate\Support\Facades\Storage;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
@@ -16,24 +17,31 @@ class HelloController extends Controller
         $this->fname = 'hello.txt';
     }
 
-    public function index()
+    public function index(Request $request, Response $response)
     {
-        $url = Storage::disk('public')->url($this->fname);
-        $size = Storage::disk('public')->size($this->fname);
-        $modified = Storage::disk('public')->lastModified($this->fname);
-        $modified_time = date('y-m-d H:i:s', $modified);
-        $sample_keys = ['url', 'size', 'modified'];
-        $sample_meta = [$url, $size, $modified_time];
-        $result = '<table><tr><th>' . implode('</th><th>', $sample_keys) . '</th></tr>';
-        $result .= '<tr><td>' . implode('</td><td>', $sample_meta) . '</td></tr></table>';
-
-        $sample_data = Storage::disk('public')->get($this->fname);
-
+        $msg = 'plese input text:';
+        $keys = [];
+        $values = [];
+        if ($request->isMethod('post'))
+        {
+           $form = $request->only(['name', 'mail', 'tel']);
+           $keys = array_keys($form);
+           $values = array_values($form);
+           $msg = old('name') . ',' . old('mail') . ',' . old('tel');
+           $data = [
+               'msg'=> $msg,
+               'keys'=> $keys,
+               'values'=> $values,
+            ];
+            $request->flash();
+            return view('hello.index', $data);
+        }
         $data = [
-            'msg' => $result,
-            'data' => explode(PHP_EOL, $sample_data),
+            'msg'=> $msg,
+            'keys'=> $keys,
+            'values'=> $values,
         ];
-        // dd($sample_data);
+        $request->flash(); //送られてきたformの値をセッションに保管
         return view('hello.index', $data);
     }
     
