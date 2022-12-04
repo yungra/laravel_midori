@@ -37,21 +37,13 @@ class HelloController extends Controller
         return view('hello.index', $data);
     }
     
-    public function other($msg)
+    public function other(Request $request)
     {
-        // if (Storage::disk('public')->exists('bk_' . $this->fname))
-        // {
-        //     Storage::disk('public')->delete('bk_' . $this->fname);
-        // }
-        // Storage::disk('public')->copy($this->fname, 'bk_' . $this->fname);
-        // if (Storage::disk('local')->exists('bk_' . $this->fname))
-        // {
-        //     Storage::disk('local')->delete('bk_' . $this->fname);
-        // }
-        // Storage::disk('local')->move('public/bk_' . $this->fname, 'bk_' . $this->fname);
-        // return redirect()->route('hello');
-
-        return Storage::disk('public')->download($this->fname);
+        // dd($request->file);
+        $ext = '.' . $request->file('file')->extension(); //拡張子を取得
+        //putFileAs( ファイルパス, ファイル, ファイル名 )
+        Storage::disk('public')->putFileAs('files', $request->file('file'), 'upload' . $ext);
+        return redirect()->route('hello');
     }
     
 }
