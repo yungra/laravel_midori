@@ -21,5 +21,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('/hello/other', [HelloController::class, 'other']);
 Route::get('hello', [HelloController::class, 'index'])->name('hello');
+Route::get('/hello/{id}', [HelloController::class, 'index']);
