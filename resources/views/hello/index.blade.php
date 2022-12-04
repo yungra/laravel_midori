@@ -6,7 +6,7 @@
 <body>
     <h1>Hello/Index</h1>
     <p>{!! $msg !!}</p>
-    <form action="/hello" method="post">
+    <form action="/hello" method="get">
         @csrf
         <div>NAME:<input type="text" name="name"
             value="{{ old('name') }}"></div>

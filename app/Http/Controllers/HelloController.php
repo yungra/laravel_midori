@@ -19,23 +19,13 @@ class HelloController extends Controller
 
     public function index(Request $request, Response $response)
     {
-        $msg = 'plese input text:';
-        $keys = [];
-        $values = [];
-        if ($request->isMethod('post'))
-        {
-           $form = $request->only(['name', 'mail', 'tel']);
-           $keys = array_keys($form);
-           $values = array_values($form);
-           $msg = old('name') . ',' . old('mail') . ',' . old('tel');
-           $data = [
-               'msg'=> $msg,
-               'keys'=> $keys,
-               'values'=> $values,
-            ];
-            $request->flash();
-            return view('hello.index', $data);
-        }
+        $name = $request->query('name');
+        $mail = $request->query('mail');
+        $tel = $request->query('tel');
+        $msg = $name . ',' . $mail . ',' . $tel;
+        $keys = ['名前','メール','電話'];
+        $values = [$name, $mail, $tel];
+        
         $data = [
             'msg'=> $msg,
             'keys'=> $keys,
@@ -47,11 +37,14 @@ class HelloController extends Controller
     
     public function other(Request $request)
     {
-        // dd($request->file);
-        $ext = '.' . $request->file('file')->extension(); //拡張子を取得
-        //putFileAs( ファイルパス, ファイル, ファイル名 )
-        Storage::disk('public')->putFileAs('files', $request->file('file'), 'upload' . $ext);
-        return redirect()->route('hello');
+        $data = [
+            'name' => 'Taro',
+            'mail' => 'taro@yamada',
+            'tel' => '090-999-999',
+        ];
+        $query_str = http_build_query($data);
+        $data['msg'] = $query_str;
+        return redirect()->route('hello', $data);
     }
     
 }
