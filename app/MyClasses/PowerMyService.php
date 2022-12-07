@@ -3,24 +3,24 @@ namespace APP\MyClasses;
 
 use App\MyClasses\MyServiceInterface;
 
-class MyService implements MyServiceInterface
+class PowerMyService implements MyServiceInterface
 {
-    private $serial;
-    private $id;
+    private $id = -1;
     private $msg = 'no id...';
-    private $data = ['Hello', 'Welcome', 'Bye'];
+    private $data = ['いちご', 'リンゴ', 'バナナ', 'みかん', 'ぶどう'];
     
     function __construct()
     {
+        $this->setId(rand(0, count($this->data)));
     }
 
     public function setId($id)
     {
-        $this->id = $id;
         if ($id >= 0 && $id < count($this->data))
         {
-            $this->msg = "select id:" . $id
-                . ', data:"' . $this->data[$id] . '"';
+            $this->id = $id;
+            $this->msg = "あなたが好きなのは、" . $id
+                . '番の' . $this->data[$id] . 'ですね！';
         }
     }
 
@@ -32,6 +32,11 @@ class MyService implements MyServiceInterface
     public function data(int $id)
     {
         return $this->data[$id];
+    }
+
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 
     public function alldata()

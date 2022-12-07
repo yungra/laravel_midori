@@ -2,23 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\MyClasses\MyService;
+use App\MyClasses\MyServiceInterface;
+use Illuminate\Support\Facades\Storage;
+use App\Facades\MyService;
+
 class HelloController extends Controller
 {
 
-    function __construct(MyService $myservice)
+    function __construct()
     {
-        $myservice = app('App\MyClasses\MyService');
     }
     
-    public function index(MyService $myservice, int $id = -1)
+    public function index(int $id = -1)
     {
-        $myservice->setId($id);
+        MyService::setId($id);
         $data = [
-            'msg' => $myservice->say(),
-            'data' => $myservice->alldata()
+            'msg' => MyService::say(),
+            'data' => MyService::alldata()
         ];
         return view('hello.index', $data);
     }
+
+    // public function index()
+    // {
+    //     $dir = '/';
+    //     $all = Storage::disk('download')->allfiles($dir);
+    //     dd(Storage::disk('download'));
+    // }
     
 }

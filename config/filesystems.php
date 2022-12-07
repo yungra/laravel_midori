@@ -69,7 +69,7 @@ return [
 
         'ftp' => [
             'driver' => 'ftp',
-            'host' => 'test',
+            'host' => 'localhost',
             'username' => 'yuga',
             'password' => 'password'
         ],
