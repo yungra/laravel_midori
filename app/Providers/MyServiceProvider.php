@@ -17,7 +17,7 @@ class MyServiceProvider extends ServiceProvider
         'App\MyClasses\PowerMyService');
         app()->singleton('App\MyClasses\MyServiceInterface',
         'App\MyClasses\PowerMyService');
-        echo '<b>&lt;MyServiceProvider/register&gt;</b><br>';
+        // echo '<b>&lt;MyServiceProvider/register&gt;</b><br>';
     }
 
     /**
@@ -27,6 +27,6 @@ class MyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        echo "<b>&lt;MyServiceProvider/boot&gt;</b><br>";
+        // echo "<b>&lt;MyServiceProvider/boot&gt;</b><br>";
     }
 }
