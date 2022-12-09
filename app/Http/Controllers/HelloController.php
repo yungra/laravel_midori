@@ -6,6 +6,7 @@ use App\MyClasses\MyServiceInterface;
 use Illuminate\Support\Facades\Storage;
 use App\Facades\MyService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HelloController extends Controller
 {
@@ -14,11 +15,21 @@ class HelloController extends Controller
     {
     }
     
-    public function index(Request $request)
+    public function index($id = -1)
     {
+        if ($id >= 0)
+        {
+            $msg = 'get name like "' . $id . '"';
+            $result = [DB::table('people')->find($id)];
+        }
+        else
+        {
+            $msg = 'get people records.';
+            $result = DB::table('people')->get();
+        }
         $data = [
-            'msg' => $request->msg,
-            'data' => $request->alldata,
+            'msg' => $msg,
+            'data' => $result,
         ];
         return view('hello.index', $data);
     }
