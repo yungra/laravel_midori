@@ -15,18 +15,28 @@ class HelloController extends Controller
     {
     }
     
-    public function index($id = -1)
+    public function index($id)
     {
-        if ($id >= 0)
-        {
-            $msg = 'get name like "' . $id . '"';
-            $result = [DB::table('people')->find($id)];
-        }
-        else
-        {
-            $msg = 'get people records.';
-            $result = DB::table('people')->get();
-        }
+        $data = ['msg' => '', 'data' => []];
+        $msg = 'get: ';
+        $result = [];
+        $count = 0;
+        DB::table('people')
+            ->chunkById(2, function($items)
+                use (&$msg, &$result, &$id, &$count)
+            {
+                if($count == $id)
+                {
+                foreach($items as $item)
+                {
+                    $msg .= $item->id . ':' . $item->name . ' ';
+                    $result += array_merge($result,[$item]);
+                }
+                return false;
+            }
+            $count++;
+            return true;
+        });
         $data = [
             'msg' => $msg,
             'data' => $result,
