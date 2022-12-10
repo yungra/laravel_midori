@@ -50,5 +50,7 @@ class HelloController extends Controller
     //     $all = Storage::disk('download')->allfiles($dir);
     //     dd(Storage::disk('download'));
     // }
+
+    //テスト
     
 }
