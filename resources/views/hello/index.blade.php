@@ -2,16 +2,21 @@
 <html lang="ja">
 <head>
     <title>Index</title>
+    <link href="/css/app.css" rel="stylesheet">
 </head>
 <body>
     <h1>Hello/Index</h1>
     <p>{{  $msg  }}</p>
-    <ol>
-        @foreach ($data as $item)
-            <li>{{ $item->name }} [{{ $item->mail }},
-                {{ $item->age }}]</li>
-        @endforeach
-    </ol>
+    <table border="1">
+    @foreach ($data as $item)
+    <tr>
+    <th>{{ $item->id }}</th>
+    <td>{{ $item->name }}</td>
+    <td>{{ $item->mail }}</td>
+    <td>{{ $item->age }}</td>
+    @endforeach
+    </tr>
+    </table>
     <hr>
 </body>
 </html>

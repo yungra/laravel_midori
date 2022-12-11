@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\MyClasses\MyServiceInterface;
 use Illuminate\Support\Facades\Storage;
 use App\Facades\MyService;
+use App\Http\Pagination\MyPaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Person;
 
 class HelloController extends Controller
 {
@@ -14,29 +16,17 @@ class HelloController extends Controller
     function __construct()
     {
     }
-    
-    public function index($id)
+
+    public function index(Request $request)
     {
-        $data = ['msg' => '', 'data' => []];
-        $msg = 'get: ';
-        $result = [];
-        $count = 0;
-        DB::table('people')
-            ->chunkById(2, function($items)
-                use (&$msg, &$result, &$id, &$count)
-            {
-                if($count == $id)
-                {
-                foreach($items as $item)
-                {
-                    $msg .= $item->id . ':' . $item->name . ' ';
-                    $result += array_merge($result,[$item]);
-                }
-                return false;
-            }
-            $count++;
-            return true;
+        $msg = 'show people record.';
+        $keys = Person::get()->modelKeys();
+        $even = array_filter($keys, function($keys)
+        {
+            return $keys % 2 == 0;
         });
+        $result = Person::get()->only($even);
+
         $data = [
             'msg' => $msg,
             'data' => $result,
@@ -52,5 +42,5 @@ class HelloController extends Controller
     // }
 
     //テスト
-    
+
 }
