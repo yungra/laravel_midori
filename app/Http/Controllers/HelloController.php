@@ -20,27 +20,43 @@ class HelloController extends Controller
     public function index(Request $request)
     {
         $msg = 'show people record.';
-        $keys = Person::get()->modelKeys();
-        $even = array_filter($keys, function($keys)
-        {
-            return $keys % 2 == 0;
-        });
-        $result = Person::get()->only($even);
+        $re = Person::get();
+        $fields = Person::get()->fields();
 
         $data = [
-            'msg' => $msg,
-            'data' => $result,
+            'msg' => implode(', ', $fields),
+            'data' => $re,
         ];
         return view('hello.index', $data);
     }
 
-    // public function index()
-    // {
-    //     $dir = '/';
-    //     $all = Storage::disk('download')->allfiles($dir);
-    //     dd(Storage::disk('download'));
-    // }
+    public function save($id, $name)
+    {
+        $record = Person::find($id);
+        $record->name = $name;
+        $record->save();
+        return redirect()->route('hello');
+    }
 
-    //テスト
+    public function other()
+    {
+        $person = new Person();
+        $person->all_data = ['aaa', 'bbb@ccc', 1234]; //ダミーデータ
+        $person->save();
+
+        return redirect()->route('hello');
+    }
+
+    public function json($id = -1)
+    {
+        if($id == -1)
+        {
+            return Person::get()->toJson();
+        }
+        else
+        {
+            return Person::find($id)->toJson();
+        }
+    }
 
 }
