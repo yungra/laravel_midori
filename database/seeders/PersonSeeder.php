@@ -19,32 +19,32 @@ class PersonSeeder extends Seeder
     {
         DB::table('people')->insert([
             [
-            'name' => Str::random(5),
+            'name' => 'Taro',
             'mail' => Str::random(5).'@gmail.com',
             'age' => 10,
             ],
             [
-            'name' => Str::random(5),
+            'name' => 'Hanako',
             'mail' => Str::random(5).'@gmail.com',
             'age' => 20,
             ],
             [
-            'name' => Str::random(5),
+            'name' => 'Keisuke',
             'mail' => Str::random(5).'@gmail.com',
             'age' => 30,
             ],
             [
-            'name' => Str::random(5),
+            'name' => 'Kota',
             'mail' => Str::random(5).'@gmail.com',
             'age' => 40,
             ],
             [
-            'name' => Str::random(5),
+            'name' => 'Yuri',
             'mail' => Str::random(5).'@gmail.com',
             'age' => 50,
             ],
             [
-            'name' => Str::random(5),
+            'name' => 'Mami',
             'mail' => Str::random(5).'@gmail.com',
             'age' => 60,
             ],

@@ -17,26 +17,35 @@ class HelloController extends Controller
     {
     }
 
-    public function index(Request $request)
-    {
-        $msg = 'show people record.';
-        $re = Person::get();
-        $fields = Person::get()->fields();
+    public function index()
+{
+    $msg = 'show people record.';
+    $result = Person::get();
+    
+    $data = [
+        'input' => '',
+        'msg' => $msg,
+        'data' => $result,
+    ];
+    return view('hello.index', $data);
+}
 
-        $data = [
-            'msg' => implode(', ', $fields),
-            'data' => $re,
-        ];
-        return view('hello.index', $data);
-    }
 
-    public function save($id, $name)
-    {
-        $record = Person::find($id);
-        $record->name = $name;
-        $record->save();
-        return redirect()->route('hello');
-    }
+public function send(Request $request)
+{
+    $input = $request->input('find');
+    $msg = 'search: ' . $input;
+    $result = Person::search($input)->get();
+
+
+    $data = [
+        'input' => $input,
+        'msg' => $msg,
+        'data' => $result,
+    ];
+    return view('hello.index', $data);
+}
+
 
     public function other()
     {

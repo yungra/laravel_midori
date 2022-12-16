@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 
 Route::get('/hello', [HelloController::class, 'index'])->name('hello');
+Route::post('/hello', [HelloController::class, 'index'])->name('hello');
 // Route::get('/hello/other', [HelloController::class, 'other']);
 // Route::get('/hello/{id}', [HelloController::class, 'index']);
 // Route::get('/hello/{id}/{name}', [HelloController::class, 'save']);
