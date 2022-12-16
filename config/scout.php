@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'driver' => env('SCOUT_DRIVER', 'algolia'),
+    'driver' => env('SCOUT_DRIVER', 'tntsearch'),
 
     /*
     |--------------------------------------------------------------------------
@@ -114,6 +114,13 @@ return [
     'algolia' => [
         'id' => env('ALGOLIA_APP_ID', 'LXNCA33N9E'),
         'secret' => env('ALGOLIA_SECRET', '4f424d7426f4885f923a58254cc622d5'),
+    ],
+
+
+    //TNTSearchの設定
+
+    'tntsearch' => [
+        'storage' => storage_path(),
     ],
 
     /*

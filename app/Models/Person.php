@@ -58,6 +58,14 @@ class Person extends Model
         $this->attributes['mail'] = $value[1];
         $this->attributes['age'] = $value[2];
     }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array['reverse'] = strrev($array['name']);
+
+        return $array;
+    }
 }
 
 class MyCollection extends Collection{
