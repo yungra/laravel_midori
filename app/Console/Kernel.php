@@ -23,8 +23,15 @@ class Kernel extends ConsoleKernel
     {
         $count = Person::all()->count();
         $id = rand(0, $count) + 1;
-        $obj = new ScheduleObj($id);
-        $schedule->call($obj);
+
+        //インスタンス実行
+        $schedule->call(new Myjob($id));
+
+        //クロージャ内で実行
+        $schedule->call(function() use($id)
+        {
+            MyJob::dispatch($id);
+        });
     }
 
     /**
@@ -41,20 +48,3 @@ class Kernel extends ConsoleKernel
 }
 
 
-class ScheduleObj2
-{
-    private $person;
-
-    public function __construct($id)
-    {
-        $this->person = Person::find($id);
-    }
-
-    public function __invoke()
-    {
-        Storage::append('person_access_log.txt',
-            $this->person->all_data);
-            MyJob::dispatch($this->person);
-            return 'true';
-    }
-}
