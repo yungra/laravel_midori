@@ -2,8 +2,14 @@
 
 namespace App\Console;
 
+// use App\Console\ScheduleObj as ConsoleScheduleObj;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Person;
+use App\Jobs\MyJob;
+use App\Console\ScheduleObj;
+use Illuminate\Support\Facades\Storage;
+
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +21,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $count = Person::all()->count();
+        $id = rand(0, $count) + 1;
+
+        //インスタンス実行
+        $schedule->call(new Myjob($id));
+
+        //クロージャ内で実行
+        $schedule->call(function() use($id)
+        {
+            MyJob::dispatch($id);
+        });
     }
 
     /**
@@ -30,3 +46,5 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+
+

@@ -9,6 +9,8 @@ use App\Http\Pagination\MyPaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Person;
+use App\Jobs\MyJob;
+use App\Events\PersonEvent;
 
 class HelloController extends Controller
 {
@@ -19,7 +21,6 @@ class HelloController extends Controller
 
     public function index()
 {
-    Person::get(['*'])->searchable();
     $msg = 'show people record.';
     $result = Person::get();
     
@@ -34,16 +35,21 @@ class HelloController extends Controller
 
 public function send(Request $request)
 {
-    $input = $request->input('find');
-    $msg = 'search: ' . $input;
-    $result = Person::search($input)->get();
+    $id = $request->input('id');
+    $person = Person::find($id);
 
-
+    event(new PersonEvent($person));
     $data = [
-        'input' => $input,
-        'msg' => $msg,
-        'data' => $result,
+        'input' => '',
+        'msg' => 'id=' . $id,
+        'data' => [$person],
     ];
+
+    // dispatch(function() use ($person)
+    // {
+    //     Storage::append('person_access_log.txt',
+    //         $person->all_data);
+    // });
     return view('hello.index', $data);
 }
 
